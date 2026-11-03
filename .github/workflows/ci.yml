@@ -1,0 +1,50 @@
+name: CI
+
+# Testes de integração da API (Postgres próprio + Stripe/Bunny/prefeitura
+# falsos) e checagem de tipos, testes de unidade e build do front.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  backend:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+      - run: npm ci
+      - name: Localizar binários do Postgres
+        id: pg
+        run: echo "bin=$(ls -d /usr/lib/postgresql/*/bin | sort -V | tail -1)" >> "$GITHUB_OUTPUT"
+      - name: Suíte de integração
+        env:
+          PG_BIN: ${{ steps.pg.outputs.bin }}
+          TEST_PG_PORT: "55432"
+          TEST_PORT_BASE: "45100"
+        run: node tests/run.js
+
+  frontend:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npx tsc --noEmit
+      - run: npm test
+      - run: npx vite build

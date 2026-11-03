@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="64" height="64" role="img" aria-label="Pauta">
+  <rect width="100" height="100" rx="22" fill="#189BFF"/>
+  <rect x="22" y="28" width="56" height="10" rx="5" fill="#FFFFFF"/>
+  <rect x="22" y="46" width="40" height="10" rx="5" fill="#FFFFFF"/>
+  <rect x="22" y="64" width="48" height="10" rx="5" fill="#FFFFFF"/>
+</svg>

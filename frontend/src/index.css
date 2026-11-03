@@ -1,0 +1,604 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;700&display=swap");
+@import "tailwindcss";
+
+:root {
+  --animate-shimmer: shimmer 2s linear infinite;
+  --pauta-safe-top: env(safe-area-inset-top, 0px);
+  --pauta-safe-right: env(safe-area-inset-right, 0px);
+  --pauta-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --pauta-safe-left: env(safe-area-inset-left, 0px);
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+:root {
+  --bg-app: #f6f8fc;
+  --bg-app-accent: #eef4ff;
+  --bg-surface: #ffffff;
+  --bg-surface-soft: rgba(255, 255, 255, 0.78);
+  --bg-surface-muted: #f8fafc;
+  --bg-sidebar: #ffffff;
+  --bg-header: rgba(255, 255, 255, 0.82);
+  --bg-elevated: #ffffff;
+  --primary-blue: #2563eb;
+  --primary-blue-hover: #1d4ed8;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --text-soft: #94a3b8;
+  /* Superfícies extras, usadas em anexos, pré-visualização e cabeçalhos. */
+  --bg-sunken: #f1f5f9;
+  --bg-raised: #ffffff;
+  --bg-raised-hover: #f8fafc;
+  --accent-roxo: #2e05a3;
+  --accent-roxo-suave: #f3e8ff;
+  --border-subtle: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --shadow-soft: 0 18px 50px rgba(15, 23, 42, 0.08);
+  --shadow-elevated: 0 20px 40px rgba(15, 23, 42, 0.12);
+}
+
+html[data-theme="dark"] {
+  --bg-app: #141414;
+  --bg-app-accent: #191919;
+  --bg-surface: #191919;
+  --bg-surface-soft: rgba(25, 25, 25, 0.86);
+  --bg-surface-muted: #202020;
+  --bg-sidebar: #161616;
+  --bg-header: rgba(20, 20, 20, 0.9);
+  --bg-elevated: #222222;
+  --primary-blue: #63a4ff;
+  --primary-blue-hover: #4f93f7;
+  --text-main: #f3f4f6;
+  --text-muted: #c9ccd1;
+  --text-soft: #9ca3af;
+  --bg-sunken: #0d1014;
+  --bg-raised: #111317;
+  --bg-raised-hover: #1a1d23;
+  --accent-roxo: #c4b5fd;
+  --accent-roxo-suave: rgba(124, 58, 237, 0.18);
+  --border-subtle: #2e2e2e;
+  --border-strong: #3a3a3a;
+  --shadow-soft: 0 18px 50px rgba(0, 0, 0, 0.34);
+  --shadow-elevated: 0 20px 40px rgba(0, 0, 0, 0.44);
+}
+
+html,
+body,
+#app {
+  min-height: 100%;
+  background-color: var(--bg-app);
+}
+
+body {
+  margin: 0;
+  color: var(--text-main);
+  background:
+    radial-gradient(circle at top, var(--bg-app-accent) 0%, transparent 32%),
+    var(--bg-app);
+  font-family:
+    "Plus Jakarta Sans",
+    system-ui,
+    -apple-system,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.pauta-sidebar-nav-item,
+.pauta-sidebar-workspaces button {
+  outline: none;
+}
+
+.pauta-app-shell {
+  background:
+    radial-gradient(
+      circle at top left,
+      var(--bg-app-accent) 0%,
+      transparent 28%
+    ),
+    var(--bg-app) !important;
+}
+
+.pauta-app-shell-main {
+  background: var(--bg-surface-soft) !important;
+}
+
+.pauta-sidebar {
+  background: var(--bg-sidebar) !important;
+  border-color: var(--border-subtle) !important;
+  box-shadow: var(--shadow-soft);
+}
+
+.pauta-app-header {
+  background: var(--bg-header) !important;
+  border-color: var(--border-subtle) !important;
+}
+
+.pauta-theme-surface {
+  background: var(--bg-elevated) !important;
+  border-color: var(--border-subtle) !important;
+  box-shadow: var(--shadow-elevated);
+}
+
+.pauta-theme-surface-muted {
+  background: var(--bg-surface) !important;
+  border-color: var(--border-subtle) !important;
+}
+
+.pauta-theme-menu {
+  background: var(--bg-elevated) !important;
+  border-color: var(--border-subtle) !important;
+  box-shadow: var(--shadow-elevated);
+  color: var(--text-main) !important;
+}
+
+.pauta-theme-overlay {
+  background: rgba(15, 15, 15, 0.42) !important;
+}
+
+.pauta-safe-top {
+  padding-top: 0;
+}
+
+.pauta-safe-bottom {
+  padding-bottom: 0;
+}
+
+.pauta-safe-x {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.pauta-safe-bottom-margin {
+  margin-bottom: 0;
+}
+
+.pauta-scroll-safe {
+  scroll-padding-top: 0;
+  scroll-padding-bottom: 0;
+}
+
+.pauta-touch-target {
+  min-width: auto;
+  min-height: auto;
+}
+
+@media (max-width: 1023px) {
+  .pauta-safe-top {
+    padding-top: var(--pauta-safe-top);
+  }
+
+  .pauta-safe-bottom {
+    padding-bottom: var(--pauta-safe-bottom);
+  }
+
+  .pauta-safe-x {
+    padding-left: var(--pauta-safe-left);
+    padding-right: var(--pauta-safe-right);
+  }
+
+  .pauta-safe-bottom-margin {
+    margin-bottom: var(--pauta-safe-bottom);
+  }
+
+  .pauta-scroll-safe {
+    scroll-padding-top: calc(var(--pauta-safe-top) + 16px);
+    scroll-padding-bottom: calc(var(--pauta-safe-bottom) + 16px);
+  }
+
+  .pauta-touch-target {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+html[data-theme="dark"] .pauta-theme-overlay {
+  background: rgba(0, 0, 0, 0.62) !important;
+}
+
+.pauta-theme-text {
+  color: var(--text-main) !important;
+}
+
+.pauta-theme-text-muted {
+  color: var(--text-muted) !important;
+}
+
+.pauta-theme-toggle-track {
+  background: var(--bg-surface-muted);
+  border-color: var(--border-subtle);
+}
+
+.pauta-theme-toggle-knob {
+  background: var(--bg-elevated);
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.16);
+}
+
+.pauta-ui-input {
+  border-color: var(--border-subtle) !important;
+  background: var(--bg-elevated) !important;
+  color: var(--text-main) !important;
+}
+
+.pauta-ui-input::placeholder {
+  color: var(--text-soft) !important;
+}
+
+.pauta-ui-input:focus {
+  border-color: var(--primary-blue) !important;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary-blue) 16%, transparent);
+}
+
+.pauta-auth-screen {
+  background:
+    radial-gradient(
+      circle at top,
+      color-mix(in srgb, var(--bg-app-accent) 86%, transparent) 0%,
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      color-mix(in srgb, var(--primary-blue) 10%, transparent) 0%,
+      transparent 26%
+    ),
+    var(--bg-app);
+}
+
+.pauta-auth-card {
+  background: color-mix(in srgb, var(--bg-surface-soft) 92%, transparent);
+  border-color: var(--border-subtle) !important;
+  box-shadow: var(--shadow-elevated);
+}
+
+.pauta-skeleton {
+  position: relative;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--bg-surface-muted) 82%, transparent);
+}
+
+.pauta-skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, white 14%, transparent) 50%,
+    transparent 100%
+  );
+  animation: shimmer 1.8s linear infinite;
+}
+
+.pauta-loading-screen {
+  background:
+    radial-gradient(
+      circle at top left,
+      color-mix(in srgb, var(--bg-app-accent) 95%, transparent) 0%,
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      color-mix(in srgb, var(--primary-blue) 12%, transparent) 0%,
+      transparent 28%
+    ),
+    var(--bg-app);
+}
+
+.pauta-loading-screen-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(in srgb, var(--border-subtle) 52%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--border-subtle) 52%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 52px 52px;
+  mask-image: radial-gradient(circle at center, black 38%, transparent 82%);
+  pointer-events: none;
+}
+
+.pauta-loading-screen-orb {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(18px);
+  opacity: 0.7;
+  pointer-events: none;
+  animation: pauta-loader-drift 12s ease-in-out infinite;
+}
+
+.pauta-loading-screen-orb-a {
+  top: 48px;
+  left: 48px;
+  height: 220px;
+  width: 220px;
+  background: color-mix(in srgb, var(--primary-blue) 22%, transparent);
+}
+
+.pauta-loading-screen-orb-b {
+  right: 52px;
+  bottom: 64px;
+  height: 260px;
+  width: 260px;
+  animation-delay: -4s;
+  background: color-mix(in srgb, #14b8a6 18%, transparent);
+}
+
+.pauta-loader-mark {
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--primary-blue) 82%, white 6%),
+    color-mix(in srgb, var(--primary-blue) 62%, #0ea5e9 38%)
+  );
+  box-shadow:
+    0 24px 50px color-mix(in srgb, var(--primary-blue) 20%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.pauta-loader-mark-cell {
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  animation: pauta-loader-cell 1.8s ease-in-out infinite;
+}
+
+.pauta-loader-mark-cell-2 {
+  animation-delay: 0.12s;
+}
+
+.pauta-loader-mark-cell-3 {
+  animation-delay: 0.24s;
+}
+
+.pauta-loader-mark-cell-4 {
+  animation-delay: 0.36s;
+}
+
+html[data-theme="dark"] * {
+  scrollbar-color: #3a3a3a transparent;
+}
+
+html[data-theme="dark"] *::-webkit-scrollbar-thumb {
+  background: #3a3a3a;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Outfit", "Plus Jakarta Sans", sans-serif;
+  letter-spacing: -0.02em;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #e2e8f0 transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 999px;
+}
+
+@keyframes pauta-loader-cell {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.78;
+  }
+  50% {
+    transform: translateY(-3px) scale(1.04);
+    opacity: 1;
+  }
+}
+
+@keyframes pauta-loader-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(20px, -12px, 0) scale(1.04);
+  }
+  66% {
+    transform: translate3d(-12px, 14px, 0) scale(0.96);
+  }
+}
+
+/* Toasts: entrada pela direita, saida de volta pra direita e barra de tempo. */
+@keyframes pauta-toast-in {
+  from {
+    opacity: 0;
+    transform: translate3d(16px, -6px, 0) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes pauta-toast-out {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    max-height: 16rem;
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(24px, 0, 0) scale(0.96);
+    max-height: 0;
+  }
+}
+
+@keyframes pauta-toast-progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+.pauta-toast-in {
+  animation-name: pauta-toast-in;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation-fill-mode: both;
+}
+
+.pauta-toast-out {
+  animation-name: pauta-toast-out;
+  animation-timing-function: cubic-bezier(0.4, 0, 1, 1);
+  animation-fill-mode: forwards;
+}
+
+.pauta-toast-progress {
+  animation-name: pauta-toast-progress;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+
+
+/*
+ * Cores de interface que já sabem se comportar nos dois temas: a tela usa
+ * text-(--ui-texto-secundario) e afins, em vez de repetir "se for escuro use
+ * isto, senão aquilo". Os valores são os mesmos que já estavam nos componentes.
+ */
+:root {
+  --ui-texto-principal: #0f172a;
+  --ui-texto-secundario: #64748b;
+  --ui-texto-apagado: #94a3b8;
+  --ui-superficie: #ffffff;
+  --ui-borda: #e2e8f0;
+  --ui-borda-suave: #f1f5f9;
+  --ui-texto-forte: #334155;
+  --ui-texto-item: #334155;
+  --ui-superficie-suave: #ffffff;
+  --ui-superficie-campo: #ffffff;
+  --ui-azul-fundo: #eff6ff;
+  --ui-azul-texto: #2563eb;
+  --ui-veu: rgba(255, 255, 255, 0.8);
+  --ui-veu-escuro: rgba(15, 23, 42, 0.4);
+  --ui-azul-foco: #dbeafe;
+  --ui-botao-primario: #0f172a;
+  --ui-botao-primario-hover: #1e293b;
+  --ui-botao-primario-foco: rgba(15, 23, 42, 0.1);
+  --ui-borda-forte: #cbd5e1;
+  --ui-azul-borda-foco: #60a5fa;
+  --ui-fundo-sutil: #f8fafc;
+  --ui-fundo-neutro: #f1f5f9;
+  --ui-hover-forte: #f1f5f9;
+  --ui-azul-borda: #bfdbfe;
+  --ui-rose-texto: #e11d48;
+  --ui-rose-fundo: #fff1f2;
+  --ui-rose-borda: #fecdd3;
+  --ui-verde-texto: #059669;
+  --ui-verde-fundo: #d1fae5;
+  --ui-verde-borda: #a7f3d0;
+  --ui-ambar-texto: #d97706;
+  --ui-ambar-fundo: #fef3c7;
+  --ui-ambar-borda: #fde68a;
+  --ui-hover: #f8fafc;
+}
+
+html[data-theme="dark"] {
+  --ui-texto-principal: var(--text-main);
+  --ui-texto-secundario: var(--text-muted);
+  --ui-texto-apagado: var(--text-soft);
+  --ui-superficie: var(--bg-elevated);
+  --ui-borda: var(--border-subtle);
+  --ui-borda-suave: var(--border-subtle);
+  --ui-texto-forte: var(--text-main);
+  --ui-texto-item: var(--text-muted);
+  --ui-superficie-suave: var(--bg-surface);
+  --ui-superficie-campo: var(--bg-surface-muted);
+  --ui-azul-fundo: rgba(59, 130, 246, 0.12);
+  --ui-azul-texto: #93c5fd;
+  --ui-veu: rgba(0, 0, 0, 0.4);
+  --ui-veu-escuro: rgba(0, 0, 0, 0.4);
+  --ui-azul-foco: rgba(59, 130, 246, 0.15);
+  --ui-botao-primario: #2563eb;
+  --ui-botao-primario-hover: #1d4ed8;
+  --ui-botao-primario-foco: rgba(59, 130, 246, 0.2);
+  --ui-borda-forte: var(--border-strong);
+  --ui-azul-borda-foco: rgba(59, 130, 246, 0.5);
+  --ui-fundo-sutil: var(--bg-surface);
+  --ui-fundo-neutro: rgba(255, 255, 255, 0.06);
+  --ui-hover-forte: rgba(255, 255, 255, 0.1);
+  --ui-azul-borda: rgba(59, 130, 246, 0.4);
+  --ui-rose-texto: #fda4af;
+  --ui-rose-fundo: rgba(244, 63, 94, 0.12);
+  --ui-rose-borda: rgba(244, 63, 94, 0.25);
+  --ui-verde-texto: #6ee7b7;
+  --ui-verde-fundo: rgba(16, 185, 129, 0.12);
+  --ui-verde-borda: rgba(16, 185, 129, 0.25);
+  --ui-ambar-texto: #fcd34d;
+  --ui-ambar-fundo: rgba(245, 158, 11, 0.12);
+  --ui-ambar-borda: rgba(245, 158, 11, 0.25);
+  --ui-hover: rgba(255, 255, 255, 0.05);
+}
+
+/*
+ * Foco de teclado visível em qualquer elemento interativo. Só aparece para
+ * quem navega por Tab (focus-visible), então o clique do mouse continua sem
+ * contorno.
+ */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible,
+[role="button"]:focus-visible,
+[role="menuitem"]:focus-visible,
+[role="tab"]:focus-visible {
+  outline: 2px solid var(--primary-blue, #2563eb);
+  outline-offset: 2px;
+  border-radius: inherit;
+}
+
+/* Sem contorno no clique: o foco visível fica só para o teclado. */
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible),
+[tabindex]:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Estes dois tinham o contorno desligado na mão; o foco de teclado volta. */
+.pauta-sidebar-nav-item:focus-visible,
+.pauta-sidebar-workspaces button:focus-visible {
+  outline: 2px solid var(--primary-blue, #2563eb);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

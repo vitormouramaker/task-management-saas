@@ -1,0 +1,72 @@
+# Sobe o Pauta inteiro localmente: PostgreSQL + API + front.
+#
+#   docker compose up --build
+#
+# Front: http://localhost:5173   API: http://localhost:4444/api/health
+# Contas de demonstração (criadas na subida): veja o README.
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: pauta
+      TZ: UTC
+      PGTZ: UTC
+    ports:
+      - "5433:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d pauta"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  backend:
+    build: ./backend
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: development
+      PORT: 4444
+      TZ: America/Sao_Paulo
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: pauta
+      FRONTEND_URL: http://localhost:5173
+      JWT_SECRET: segredo-local-somente-para-demonstracao-0001
+      JWT_REFRESH_SECRET: segredo-local-somente-para-demonstracao-0002
+      # Arquivos numa pasta do contêiner, servidos na porta 4631.
+      LOCAL_STORAGE_DIR: /tmp/pauta-storage
+      LOCAL_STORAGE_HOST: 0.0.0.0
+      LOCAL_STORAGE_PORT: 4631
+      BUNNY_STORAGE_ZONE: pauta
+      BUNNY_ACCESS_KEY: chave-local-de-desenvolvimento
+      BUNNY_STORAGE_API_ORIGIN: http://localhost:4631
+      BUNNY_PULL_ZONE: localhost:4631
+      BUNNY_PULL_ZONE_PROTOCOL: http
+      # Opcional: cobrança em modo de teste.
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
+    # Cria as tabelas e as contas de demonstração, e sobe a API.
+    command: >
+      sh -c "node src/server/init-db.js &&
+             node scripts/criar-contas-de-demonstracao.js &&
+             node src/app.js"
+    ports:
+      - "4444:4444"
+      - "4631:4631"
+
+  frontend:
+    build: ./frontend
+    depends_on:
+      - backend
+    ports:
+      - "5173:3000"
+
+volumes:
+  db-data:
